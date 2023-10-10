@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{%load static%}
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Social-Network</title>
+	<!-- Latest compiled and minified CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Quando&family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/890a250b1c.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{%static 'style.css' %}">
+</head>
+
+<body>
+	{%url 'posts:main-post-view' as path_to_posts%}
+	{%url 'userprofile:my-profile-view' as path_to_myprofile%}
+	{%url 'userprofile:all-profiles-view' as path_to_profiles%}
+	{%url 'userprofile:invite-profiles-view' as path_to_invite%}
+	{%url 'userprofile:my-invites-view' as path_to_my_invite%}
+	<nav class="navbar navbar-light" style="background-color: azure;">
+		<div class="container">
+			<a class="navbar-brand" href="{%url 'home'%}">
+					<i class="fa-brands fa-instagram fa-xl" style="color: #f00576;"></i> Instagram
+				</a>
+				<ul class="nav justify-content-end">
+				{%if user.is_authenticated%}
+				<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" style="color:#f00576;" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Friends
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item {%if request.path == path_to_profiles%}active {%endif%}" href="{%url 'userprofile:all-profiles-view'%}">All Profiles</a></li>
+            <li><a class="dropdown-item {%if request.path == path_to_invite%}active {%endif%}" href="{%url 'userprofile:invite-profiles-view'%}">Send Invites</a></li>
+						<li><a class="dropdown-item {%if request.path == path_to_my_invite%}active {%endif%}" href="{%url 'userprofile:my-invites-view'%}">Received Invites &nbsp;&nbsp;<span class="badge bg-secondary">{{invites_num}}</span></a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+				<form class="d-flex find-form">
+					<input class="form-control me-2 search" type="search" placeholder="Search" aria-label="Search">
+					
+				</form>
+				<li class="nav-item">
+					<a class="nav-link {%if request.path == path_to_myprofile%}active {%endif%}" href="{%url 'userprofile:my-profile-view' %}" style="color: #f00576;">
+						<img src="{{picture.url}}" class="avatar_small img-fluid">&nbsp;
+						{{request.user}}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{%url 'account_logout'%}"><i style="color: #f00576;" class="fa-solid fa-right-from-bracket fa-xl"></i></a>
+				</li>
+				{%else%}
+				<li class="nav-item">
+				
+					<a href="{%url 'account_login'%}" class="nav-link"><i style="color: #f00576;" class="fa-solid fa-right-to-bracket fa-xl"></i></a>
+				</li>
+				<li class="nav-item">
+				
+					<a href="{%url 'account_signup'%}" class="nav-link"><i style="color: #f00576;" class="fa-solid fa-user-plus fa-xl"></i></a>
+				</li>
+				{%endif%}
+				</ul>
+				</div>
+
+	</nav>
+	{%block content%}
+					{%endblock%}
+	{%if user.is_authenticated%}
+	<br>
+	<br>
+	<br>
+	<ul class="nav justify-content-center fixed-bottom bottom" style="background-color: azure;">
+		<li class="nav-item">
+			<a class="nav-link {%if request.path == path_to_posts%}active {%endif%}" href="{%url 'posts:main-post-view' %}"><i style="color: #f00576;" class="fa-solid fa-house fa-xl"></i></a>
+				</li>
+				<li class="nav-item">
+					<a href="{%url 'userprofile:all-profiles-view'%}" class="nav-link {%if request.path == path_to_profiles%}active {%endif%}"><i style="color: #f00576;" class="fa-solid fa-magnifying-glass fa-xl"></i></a>
+				</li>
+				<li class="nav-item">
+					<a href="{%url 'userprofile:invite-profiles-view'%}" class="nav-link {%if request.path == path_to_invite%}active {%endif%}"><i style="color: #f00576;" class="fa-regular fa-square-plus fa-xl"></i></a>
+				</li>
+				<li class="nav-item">
+					<a href="{%url 'posts:main-post-view' %}" class="nav-link {%if request.path == path_to_posts%}active {%endif%}"><i style="color: #f00576;" class="fa-solid fa-heart fa-xl"></i></a>
+				</li>
+				<li class="nav-item">
+					<a href="{%url 'userprofile:my-profile-view'%}" class="nav-link {%if request.path == path_to_myprofile%}active {%endif%}"><i style="color: #f00576;" class="fa-regular fa-user fa-xl"></i></a>
+				</li>
+			</ul>
+	{%endif%}
+	
+	<script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+	<script src="{%static 'ind.js' %}"></script>
+</body>
+</html>

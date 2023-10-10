@@ -1,0 +1,116 @@
+{%extends 'base.html'%}
+{%block content%}
+<div class="container">
+<div class="card" style="width: 70rem;">
+	<div class="card-body">
+		{%if confirm%}
+		<div class="alert alert-success" role="alert">
+		Updated!
+	</div>
+		{%endif%}
+	<div class="row">
+		<div class="col-md-4">
+			<img  class="rounded mx-auto d-block img-thumbnail" src="{{profile.avatar.url}}" alt=""></div>
+		
+		<div class="col-md-8">
+			<table class="table">
+				
+				<tbody>
+					<tr>
+						<th scope="row">username</th>
+						<td>{{profile.user.username}}</td>
+						
+					</tr>
+					<tr>
+						<th scope="row">first_name</th>
+						<td>{{profile.first_name}}</td>
+					</tr>
+					<tr>
+						<th scope="row">last_name</th>
+						<td>{{profile.last_name}}</td>
+					</tr>
+					<tr>
+						<th scope="row">bio</th>
+						<td>{{profile.bio}}</td>
+					</tr>
+					<tr>
+						<th scope="row">member of friends</th>
+						<td>{{profile.get_friends_no}}</td>
+					</tr>
+					<tr>
+						<th scope="row">friends</th>
+						<td>
+							<ul class="list-group list-group-flush">
+							{%for friend in profile.get_friends%}
+							<li class="list-group-item">{{friend}}</li>
+							{%endfor%}
+						</ul>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">number of posts</th>
+						<td>{{profile.get_post_no}}</td>
+					</tr>
+					<tr>
+						<th scope="row">number of likes given</th>
+						<td>{{profile.get_likes_given_no}}</td>
+					</tr>
+					<tr>
+						<th scope="row">number of likes recieved</th>
+						<td>{{profile.get_likes_recieved_no}}</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+		<button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">
+			Update profile
+		</button>
+	</div>
+	</div>
+	</div>
+  
+  
+</div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update your Profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+				{%if confirm%}
+	<div class="alert alert-success" role="alert">
+	Updated!
+</div>
+	{%endif%}
+				<div class="row">
+					<div class="col-md-4"><img  class="rounded mx-auto d-block img-thumbnail" src="{{profile.avatar.url}}" alt=""></div>
+					<div class="col-md-8">
+						
+<form action="" method="POST"  enctype="multipart/form-data">
+	{%load bootstrap3%}
+	{%csrf_token%}
+	{%bootstrap_form form%}
+	<button type="submit"  class="btn btn-danger">Update</button>
+</form>
+</div>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{%endblock%}
